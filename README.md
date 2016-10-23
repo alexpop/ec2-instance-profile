@@ -55,7 +55,8 @@ control 'ec2-instance-1.2' do
 end
 ```
 
-### `ec2_instance` resource parameters
+
+### `ec2_instance` resource parameters:
 
 Name | Required | Type | Description
 --- | --- | --- | ---
@@ -67,13 +68,15 @@ wget_path | no | String | Defaults to `wget` in `$PATH` if not specified.
 An HTTP client is required on the target node in order for the resource to work. `curl`, `wget` and `Invoke-WebRequest`(Windows) are currently supported.
 
 Example of instantiating the resource with a Hash of the above parameters:
+
 ```ruby
 describe ec2_instance(version: '2016-06-30', timeout: 3, curl_path: '/usr/bin/curl') do
   it { should exist }
 end
 ```
 
-### `ec2_instance` resource tests
+
+### `ec2_instance` resource tests:
 
 ```ruby
 describe ec2_instance do
