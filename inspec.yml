@@ -1,0 +1,10 @@
+name: ec2-instance-profile
+title: InSpec profile for testing AWS EC2 instances
+maintainer: Alex Pop
+copyright: Alex Pop
+copyright_email: not-given-here@example.com
+license: Apache 2 license
+summary: InSpec profile providing an custom resources to test AWS EC2 instances
+version: 0.1.0
+supports:
+  - inspec: '~> 1.0'
