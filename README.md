@@ -12,7 +12,7 @@ The controls you find in the `./controls` directory are sample ones to demonstra
 
 * [InSpec](https://github.com/chef/inspec)
 
-### Platform
+### Platforms
 
 - Linux
 - Windows
@@ -60,9 +60,18 @@ end
 Name | Required | Type | Description
 --- | --- | --- | --
 version | no | String | Defaults to 'latest' if not specified. Call this on your EC2 instance to find out all available versions: `http://169.254.169.254/`
-timeout | no | Numeric | HTTP timeout in seconds for waiting for a response from the metadata URL. Default is 1 second.
-curl_path | no | String | Defaults to `curl` in `$PATH` if not specified. Preferred over `wget`.
+timeout | no | Numeric | Number of seconds to wait for the HTTP connection to open. The default value is 2 seconds.
+curl_path | no | String | Defaults to `curl` in `$PATH` if not specified.
 wget_path | no | String | Defaults to `wget` in `$PATH` if not specified.
+
+An HTTP client is required on the target node in order for the resource to work. `curl`, `wget` and `Invoke-WebRequest`(Windows) are currently supported.
+
+Example of instantiating the resource with a Hash of the above parameters:
+```ruby
+describe ec2_instance(version: '2016-06-30', timeout: 3, curl_path: '/usr/bin/curl') do
+  it { should exist }
+end
+```
 
 ### `ec2_instance` resource tests
 
