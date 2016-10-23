@@ -58,7 +58,7 @@ end
 ### `ec2_instance` resource parameters
 
 Name | Required | Type | Description
---- | --- | --- | --
+--- | --- | --- | ---
 version | no | String | Defaults to 'latest' if not specified. Call this on your EC2 instance to find out all available versions: `http://169.254.169.254/`
 timeout | no | Numeric | Number of seconds to wait for the HTTP connection to open. The default value is 2 seconds.
 curl_path | no | String | Defaults to `curl` in `$PATH` if not specified.
