@@ -28,7 +28,7 @@ class Ec2Instance < Inspec.resource(1)
     describe ec2_instance do
       it { should exist }
       its('user-data') { should_not match /password/i }
-      its('meta-data/public-ipv4') { should eq "" }
+      its('meta-data/public-ipv4') { should eq '' }
     end
 
     describe ec2_instance(curl_path: '/usr/bin/curl', version: '2016-06-30', timeout: 3) do
@@ -48,7 +48,7 @@ class Ec2Instance < Inspec.resource(1)
       elsif inspec.os.windows?
         @curl = nil
         @wget = nil
-        # Using Invoke-WebRequest cmdlet, introduced in Windows PowerShell 3.0
+        # Using PowerShell on Windows targets
       else
         return skip_resource "'curl' or 'wget' are required on the instance for the resource to work."
       end
@@ -58,7 +58,7 @@ class Ec2Instance < Inspec.resource(1)
   end
 
   # Called by: it { should exist }
-  # It's an ec2 instance if meta-data includes ami(Amazon Machine Image) id
+  # It's ec2 instance if meta-data includes an ami-id(Amazon Machine Image)
   def exists?
     return get('meta-data/').match(/^ami-id$/)
   end
@@ -79,9 +79,10 @@ class Ec2Instance < Inspec.resource(1)
     elsif !@wget.nil?
       inspec.command("#{@wget} --quiet --connect-timeout #{@timeout} --output-document - '#{url}'").stdout
     elsif inspec.os.windows?
-      # Tried Invoke-RestMethod(PowerShell 3.0) but it parses stuff in output, like powershell script in user-data
-      # The Invoke-WebRequest(PowerShell 3.0) RawContent method returns the header as well, so have to remove it
-      # -OutFile works fine for both RestMethod and WebRequest, but wanted to avoid creating a reading a file
+      # Using Invoke-WebRequest cmdlet, introduced in Windows PowerShell 3.0
+      # Tried Invoke-RestMethod but it interprets the output, like powershell script in user-data
+      # The Invoke-WebRequest RawContent method returns the HTTP header as well, so have to remove it
+      # -OutFile works fine for both RestMethod and WebRequest, but wanted to avoid creating and reading a file
       inspec.powershell("(Invoke-WebRequest #{url} -TimeoutSec #{@timeout}).RawContent").stdout.strip[/\r\n\r\n([\s\S]*)/, 1]
     else
       'No http client available on the node'
