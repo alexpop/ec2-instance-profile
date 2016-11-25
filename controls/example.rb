@@ -10,6 +10,7 @@ end
 control 'ec2-instance-1.0' do
   impact 1.0
   title 'Ensure no sensitive information is passed via the user-data'
+  desc 'The instance user-data is readable by any user on the instance and viewable in the AWS console'
   describe ec2_instance do
     it { should exist }
     its('user-data') { should_not match /password|secret.?access/i }
